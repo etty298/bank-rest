@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: bank-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_started
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_MAIN_LAZY_INITIALIZATION: "true"
+    ports:
+      - "8080:8080"
+    # Требуется предварительная сборка jar локально:
+    # mvn -DskipTests package
+
+volumes:
+  pgdata:
+
+

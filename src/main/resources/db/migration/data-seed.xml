@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="5-seed-if-empty" author="admin">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="users"/>
+                <sqlCheck expectedResult="0">select count(*) from users</sqlCheck>
+            </and>
+        </preConditions>
+        <insert tableName="users">
+            <column name="username" value="admin"/>
+            <column name="password" value="$2a$10$uZ2B7ZJH2qyT6sEwSx6I6u7xZ7W2WcWq1qz5P8oYcYk9Cq7xvZf9K"/>
+            <column name="role" value="ADMIN"/>
+            <column name="enabled" valueBoolean="true"/>
+        </insert>
+        <insert tableName="users">
+            <column name="username" value="user1"/>
+            <column name="password" value="$2a$10$k4iKk5rN88VZgUuCqCk7ZezmG7pV9x1qk5y9l8p3m2n1o0bC7YQ3K"/>
+            <column name="role" value="USER"/>
+            <column name="enabled" valueBoolean="true"/>
+        </insert>
+        <insert tableName="users">
+            <column name="username" value="user2"/>
+            <column name="password" value="$2a$10$k4iKk5rN88VZgUuCqCk7ZezmG7pV9x1qk5y9l8p3m2n1o0bC7YQ3K"/>
+            <column name="role" value="USER"/>
+            <column name="enabled" valueBoolean="true"/>
+        </insert>
+        <insert tableName="cards">
+            <column name="encrypted_card_number" value="ENC_DEMO_USER1_1111"/>
+            <column name="owner_id" valueNumeric="2"/>
+            <column name="expiration_date" valueDate="2030-12-31"/>
+            <column name="status" value="ACTIVE"/>
+            <column name="balance" valueNumeric="1000.00"/>
+        </insert>
+        <insert tableName="cards">
+            <column name="encrypted_card_number" value="ENC_DEMO_USER1_2222"/>
+            <column name="owner_id" valueNumeric="2"/>
+            <column name="expiration_date" valueDate="2030-12-31"/>
+            <column name="status" value="BLOCKED"/>
+            <column name="balance" valueNumeric="0.00"/>
+        </insert>
+        <insert tableName="cards">
+            <column name="encrypted_card_number" value="ENC_DEMO_USER2_3333"/>
+            <column name="owner_id" valueNumeric="3"/>
+            <column name="expiration_date" valueDate="2030-12-31"/>
+            <column name="status" value="ACTIVE"/>
+            <column name="balance" valueNumeric="500.00"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
+
