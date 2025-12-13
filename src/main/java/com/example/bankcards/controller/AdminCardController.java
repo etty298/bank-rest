@@ -4,6 +4,7 @@ import com.example.bankcards.dto.card.CardResponse;
 import com.example.bankcards.dto.card.CreateCardRequest;
 import com.example.bankcards.service.CardService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/admin/cards")
 @PreAuthorize("hasRole('ADMIN')")
+@RequiredArgsConstructor
 public class AdminCardController {
     private final CardService cardService;
 
-    public AdminCardController(CardService cardService) {
-        this.cardService = cardService;
-    }
 
     @PostMapping
     public ResponseEntity<CardResponse> create(@Valid @RequestBody CreateCardRequest request) {

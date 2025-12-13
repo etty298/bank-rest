@@ -4,6 +4,7 @@ import com.example.bankcards.dto.card.CardResponse;
 import com.example.bankcards.dto.card.TransferRequest;
 import com.example.bankcards.service.CardService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +14,10 @@ import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/cards")
+@RequiredArgsConstructor
 public class CardController {
     private final CardService cardService;
 
-    public CardController(CardService cardService) {
-        this.cardService = cardService;
-    }
 
     @GetMapping
     public ResponseEntity<Page<CardResponse>> getMyCards(Pageable pageable) {

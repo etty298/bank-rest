@@ -5,20 +5,20 @@ import com.example.bankcards.dto.user.UserResponse;
 import com.example.bankcards.entity.User;
 import com.example.bankcards.exception.NotFoundException;
 import com.example.bankcards.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@Transactional
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public UserResponse create(CreateUserRequest request) {
         User user = User.builder()

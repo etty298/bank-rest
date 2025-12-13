@@ -10,6 +10,7 @@ import com.example.bankcards.repository.CardRepository;
 import com.example.bankcards.repository.UserRepository;
 import com.example.bankcards.util.CryptoUtil;
 import com.example.bankcards.util.MaskingUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -20,16 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 
 @Service
+@RequiredArgsConstructor
+@Transactional()
 public class CardService {
     private final CardRepository cardRepository;
     private final UserRepository userRepository;
     private final CryptoUtil cryptoUtil;
 
-    public CardService(CardRepository cardRepository, UserRepository userRepository, CryptoUtil cryptoUtil) {
-        this.cardRepository = cardRepository;
-        this.userRepository = userRepository;
-        this.cryptoUtil = cryptoUtil;
-    }
 
     public CardResponse getOwn(Long id) {
         User current = getCurrentUser();

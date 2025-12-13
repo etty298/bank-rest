@@ -4,6 +4,7 @@ import com.example.bankcards.dto.user.CreateUserRequest;
 import com.example.bankcards.dto.user.UserResponse;
 import com.example.bankcards.service.UserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +14,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/users")
 @PreAuthorize("hasRole('ADMIN')")
+@RequiredArgsConstructor
 public class AdminUserController {
     private final UserService userService;
 
-    public AdminUserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @PostMapping
     public ResponseEntity<UserResponse> create(@Valid @RequestBody CreateUserRequest request) {
