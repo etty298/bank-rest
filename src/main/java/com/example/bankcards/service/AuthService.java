@@ -3,6 +3,7 @@ package com.example.bankcards.service;
 import com.example.bankcards.dto.auth.JwtResponse;
 import com.example.bankcards.dto.auth.LoginRequest;
 import com.example.bankcards.entity.User;
+import com.example.bankcards.metrics.MonitoringTimed;
 import com.example.bankcards.repository.UserRepository;
 import com.example.bankcards.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +61,7 @@ public class AuthService {
      * @see LoginRequest
      * @see JwtResponse
      */
+    @MonitoringTimed
     @Transactional(readOnly = true)
     public JwtResponse login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
