@@ -61,7 +61,6 @@ public class AuthService {
      * @see LoginRequest
      * @see JwtResponse
      */
-    @MonitoringTimed
     @Transactional(readOnly = true)
     public JwtResponse login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
