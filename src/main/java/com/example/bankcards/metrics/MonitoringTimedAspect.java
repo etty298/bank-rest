@@ -23,8 +23,6 @@ import static io.micrometer.core.aop.TimedAspect.EXCEPTION_TAG;
 
 @Aspect
 @Slf4j
-@RequiredArgsConstructor
-@SuppressWarnings("WeakerAccess")
 @Component
 public class MonitoringTimedAspect {
 
@@ -32,23 +30,18 @@ public class MonitoringTimedAspect {
      * Taken from {@link io.micrometer.core.aop.TimedAspect}
      */
 
-    public static final String DEFAULT_METRIC_NAME = "method.timed";
+    public static final String DEFAULT_METRIC_NAME = "method_timed";
     private final MeterRegistry registry;
     private final Function<ProceedingJoinPoint, Iterable<Tag>> tagsBasedOnJoinPoint;
 
-    public MonitoringTimedAspect() {
-        this(Metrics.globalRegistry);
-    }
-
     public MonitoringTimedAspect(MeterRegistry registry) {
-        this(
-                registry,
-                pjp ->
-                        Tags.of(
-                                "class",
-                                pjp.getStaticPart().getSignature().getDeclaringTypeName(),
-                                "method",
-                                pjp.getStaticPart().getSignature().getName()));
+        this.registry = registry;
+        this.tagsBasedOnJoinPoint = pjp ->
+                Tags.of(
+                        "class",
+                        pjp.getStaticPart().getSignature().getDeclaringTypeName(),
+                        "method",
+                        pjp.getStaticPart().getSignature().getName());
     }
 
     private Object processWithTimer(ProceedingJoinPoint pjp, MonitoringTimed timed, String metricName)
@@ -133,15 +126,16 @@ public class MonitoringTimedAspect {
         return DEFAULT_METRIC_NAME;
     }
 
-    @Around("execution (@com.example.bankcards.metrics.MonitoringTimed * *.*(..))")
+    @Around("@annotation(com.example.bankcards.metrics.MonitoringTimed)")
     public Object timedMethod(ProceedingJoinPoint pjp) throws Throwable {
         Method method = ((MethodSignature) pjp.getSignature()).getMethod();
         MonitoringTimed timed = method.getAnnotation(MonitoringTimed.class);
         if (timed == null) {
-            method = pjp.getTarget().getClass().getMethod(method.getName(), method.getParameterTypes());
-            timed = method.getAnnotation(MonitoringTimed.class);
+            log.warn("MonitoringTimed annotation not found on method: {}", method.getName());
+            return pjp.proceed();
         }
         final String metricName = generateMetricName(pjp, timed);
+        log.debug("Timing method: {} with metric name: {}", method.getName(), metricName);
         return timeThisMethod(pjp, timed, metricName);
     }
 

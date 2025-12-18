@@ -2,6 +2,7 @@ package com.example.bankcards;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * Main entry point for the Bank Cards REST API application.
@@ -24,6 +25,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @see org.springframework.boot.autoconfigure.SpringBootApplication
  */
 @SpringBootApplication
+@EnableAspectJAutoProxy
 public class BankcardsApplication {
     /**
      * Main method to start the Spring Boot application.
