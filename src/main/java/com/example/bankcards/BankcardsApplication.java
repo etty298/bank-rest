@@ -2,6 +2,9 @@ package com.example.bankcards;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
+
+import static org.springframework.data.web.config.EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO;
 
 /**
  * Main entry point for the Bank Cards REST API application.
@@ -24,6 +27,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @see org.springframework.boot.autoconfigure.SpringBootApplication
  */
 @SpringBootApplication
+@EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO)
 public class BankcardsApplication {
     /**
      * Main method to start the Spring Boot application.
